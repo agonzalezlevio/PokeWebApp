@@ -10,6 +10,10 @@ const pageRoutes: Routes = [
         component: HomeComponent,
       },
       {
+        path: 'search',
+        component: SearchComponent,
+      },
+      {
         path: 'search/:pokemon',
         component: SearchComponent,
       },
