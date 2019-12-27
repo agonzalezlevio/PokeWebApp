@@ -3,4 +3,6 @@ html {
     min-height: 100%;
 }
 
-
+.bg-red {
+    background-color:#c62828 !important; 
+}
