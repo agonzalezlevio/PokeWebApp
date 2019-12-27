@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PokemonService } from '../../services/pokemon.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  public pokemonList: any[] = [];
+  public generationList: any[] = [];
+  public pokemonLoading: boolean;
+
+  constructor(private pokemonService: PokemonService) { 
+  }
 
   ngOnInit() {
+    this.pokemonService.getGenerations().subscribe(result => {
+      this.generationList = result;
+      this.pokemonLoading = true;
+    });
   }
+
+  public onChange(value: number) {
+    this.pokemonLoading = false;
+    this.pokemonService.getPokemonsByGeneration(value).subscribe(result => {
+      this.pokemonList = result;
+      this.pokemonLoading = true;
+    });
+  }
+
+
+
 
 }

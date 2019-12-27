@@ -1,1 +1,21 @@
-<p>home works!</p>
+<form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputState">Generación de Pokémon</label>
+      <select 
+        (change)="onChange($event.target.value)"
+        id="inputState" 
+        class="form-control">
+        <option disabled selected>Seleccione...</option>
+        <option 
+        *ngFor="let generation of generationList" [value]="generation.index">
+          Generación {{generation.name | uppercase}}
+        </option>
+      </select>
+    </div>
+  </div>
+</form>
+<app-loading *ngIf="!pokemonLoading"></app-loading>
+<div class="card-columns" *ngIf="pokemonLoading">
+  <app-card-pokemon [pokemon]="pokemon"  *ngFor="let pokemon of pokemonList"></app-card-pokemon>
+</div>

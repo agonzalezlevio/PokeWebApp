@@ -6,20 +6,26 @@ import { PAGE_ROUTES } from './pages.routes';
 
 // Components
 import { HomeComponent } from './home/home.component';
+import { SearchComponent } from './search/search.component';
+import { CardPokemonComponent } from '../components/card-pokemon/card-pokemon.component';
 
 // Modules
-import { SearchComponent } from './search/search.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { LoadingComponent } from '../components/loading/loading.component';
 
 
 
 @NgModule({
   declarations: [
+    CardPokemonComponent,
+    LoadingComponent,
     HomeComponent,
     SearchComponent
   ],
   imports: [
     PAGE_ROUTES,
-    CommonModule
+    CommonModule,
+    PipesModule
   ],
   exports: [
     HomeComponent,
