@@ -1,20 +1,23 @@
-<form>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputState">Generación de Pokémon</label>
-      <select 
-        (change)="onChange($event.target.value)"
-        id="inputState" 
-        class="form-control">
-        <option disabled selected>Seleccione...</option>
-        <option 
-        *ngFor="let generation of generationList" [value]="generation.index">
-          Generación {{generation.name | uppercase}}
-        </option>
-      </select>
-    </div>
+<div class="jumbotron bg-red text-white">
+  <h1 class="display-4 font-weight-bold" >PokéAPI</h1>
+  <p class="lead">Todos los datos esenciales de los Pokémon en un solo lugar, fácilmente accesible a través del consumo de una moderna API RESTful de pokeapi.co.</p>
+</div>
+
+<div class="row">
+  <h4 class="font-weight-bold col-md-6" style="color: #c32020;">{{'Generación de Pokémon' | uppercase}} {{generationSelected}}</h4>
+</div>
+
+<div  class="row">
+  <div class="btn-group col-md-12 flex-wrap" role="group" aria-label="Basic example">
+    <button 
+      type="button" 
+      class="btn bg-red font-weight-bold  text-white shadow-none mr-1 my-1"
+      *ngFor="let generation of generationList" 
+      (click)="onChange(generation)"
+      >Generación {{generation.name | uppercase}}</button>
   </div>
-</form>
+</div>
+
 <app-loading *ngIf="!pokemonLoading"></app-loading>
 <div class="card-columns" *ngIf="pokemonLoading">
   <app-card-pokemon [pokemon]="pokemon"  *ngFor="let pokemon of pokemonList"></app-card-pokemon>

@@ -1,13 +1,17 @@
 <div class="card text-center mt-3">
     <br>
-    <h4 class="card-title"># {{pokemon.id}}</h4>
-    <img class="card-img-top mx-auto d-block img-thumb img-fluid" [src]="pokemon.id | pokemonImagen" [alt]="pokemon.name">
+    <h4 class="card-title font-weight-bold">N.º{{pokemon.id}}</h4>
+    <img class="card-img-top mx-auto d-block img-thumb img-fluid" [src]="pokemon.id | pokemonImagen:true" [alt]="pokemon.name">
     <div class="card-body">
-      <h4 class="card-text">{{pokemon.species.name | capitalize }}</h4>
+      <h4 class="card-text ">{{pokemon.name | capitalize }}</h4>
+      <h5 class="card-text"><small class="text-muted">{{pokemon.genera[4].genus}}</small></h5>
       <h3>
         <span *ngFor="let item of pokemon.types" 
         [style.background]="getTypeColour(item.type.name)"
-        class="badge text-white mr-2">{{item.type.name | capitalize}}</span>
+        class="badge text-white mr-2">{{item.type.name | typeToSpanish | capitalize}}</span>
       </h3>
     </div>
+        <div class="card-footer">
+           {{pokemon.flavor_text_entries | flavorTextToSpanish}} 
+        </div>
 </div>

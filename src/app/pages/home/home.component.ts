@@ -11,20 +11,25 @@ export class HomeComponent implements OnInit {
   public pokemonList: any[] = [];
   public generationList: any[] = [];
   public pokemonLoading: boolean;
+  public generationSelected: string = '';
 
-  constructor(private pokemonService: PokemonService) { 
+
+  constructor(private pokemonService: PokemonService) {
+    this.pokemonLoading = true;
   }
 
   ngOnInit() {
     this.pokemonService.getGenerations().subscribe(result => {
       this.generationList = result;
-      this.pokemonLoading = true;
     });
+
   }
 
-  public onChange(value: number) {
+  public onChange(value: any) {
     this.pokemonLoading = false;
-    this.pokemonService.getPokemonsByGeneration(value).subscribe(result => {
+
+    this.pokemonService.getPokemonsSpeciesByGeneration(value.index).subscribe((result: any) => {
+      this.generationSelected = value.name.toUpperCase();
       this.pokemonList = result;
       this.pokemonLoading = true;
     });
