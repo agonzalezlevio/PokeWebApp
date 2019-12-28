@@ -6,6 +6,8 @@ import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs/internal/observable/of';
+import { merge } from 'rxjs/internal/observable/merge';
+import { concat } from 'rxjs/internal/observable/concat';
 
 
 @Injectable({
@@ -59,6 +61,50 @@ export class PokemonService {
         })
       );
 
+  }
+
+  public getPokemonsSpeciesByGeneration(number: number) {
+    return this.http.get(`${this.pokeGenerationAPI}/${number}`)
+      .pipe(
+        switchMap((resp: any) => {
+
+          const pokemons$ = resp.pokemon_species.map(pokemon => {
+            // Se borra la última '/' de la url y limpiar la url
+            const cleanURL = pokemon.url.slice(0, -1);
+            // Se realiza un parse en la url limpia para obtener la id
+            const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
+            // Se hace un join para cada observable para que los detalles y la especie del pokemon se mantengan juntos
+            return forkJoin(this.getPokemonByName(id), this.getSpeciesByName(id));
+          });
+
+          return forkJoin(pokemons$);
+        }),
+        map((result: any) => {
+          return this.joinDetailsAndSpecie(result).sort(this.compareID);
+        })
+      );
+
+  }
+
+  private joinDetailsAndSpecie(result: any) {
+    // Nueva lista de pokémon
+    const newList: any[] = [];
+
+    for (const value of result) {
+
+      const pokemon = {
+        stats: value[0].stats,
+        id: value[0].id,
+        types: value[0].types,
+        name: value[0].species.name,
+        genera: value[1].genera,
+        flavor_text_entries: value[1].flavor_text_entries
+      };
+
+      newList.push(pokemon);
+    }
+
+    return newList;
   }
 
   private compareID(a: any, b: any) {
