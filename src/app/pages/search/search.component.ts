@@ -20,23 +20,28 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pokemonLoading = false;
-    this.pokemonService.getPokemons(807).subscribe(_ => this.pokemonLoading = true);
+    this.pokemonService.getPokemons(807).subscribe();
   }
 
 
   public busqueda(termino: string) {
-
+    this.pokemonLoading = false;
     this.empty = false;
 
-    this.pokemonService.searchPokemonList(termino).subscribe(result => {
+    if (termino.length > 2) {
+      this.pokemonService.searchPokemonList(termino).subscribe(result => {
 
-      this.filteredPokemonList = result;
+        this.filteredPokemonList = result;
+        this.pokemonLoading = true;
 
-      if (this.filteredPokemonList.length === 0) {
-        this.empty = true;
-      }
-    });
+        if (this.filteredPokemonList.length === 0) {
+          this.empty = true;
+        }
+      });
+    } else {
+      this.empty = true;
+      this.pokemonLoading = true;
+    }
   }
 
 
