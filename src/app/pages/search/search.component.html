@@ -1,4 +1,4 @@
-<div class="input-group mb-3">
+<div class="input-group mb-3" *ngIf="pokemonLoading">
     <div class="input-group-prepend">
         <span class="input-group-text text-white ">
             <img src="assets/img/pokeballLogo.svg" width="22" height="22" class="d-inline-block align-top" alt="Pokeball">
@@ -7,7 +7,7 @@
     </div>
     <input #texto type="text" class="form-control form-control-l" placeholder="Nombre pokémon">
     <div class="input-group-append">
-        <button  
+        <button 
         (click)="busqueda(texto.value)"
         class="btn bg-dark shadow-none  
         text-white" type="button">Buscar</button>

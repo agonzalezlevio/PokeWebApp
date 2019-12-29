@@ -20,17 +20,18 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pokemonService.getPokemons(807).subscribe();
+    this.pokemonLoading = false;
+    this.pokemonService.getPokemons(807).subscribe(_ => this.pokemonLoading = true);
   }
 
 
   public busqueda(termino: string) {
-    this.pokemonLoading = false;
+
+    this.empty = false;
 
     this.pokemonService.searchPokemonList(termino).subscribe(result => {
 
       this.filteredPokemonList = result;
-      this.pokemonLoading = true;
 
       if (this.filteredPokemonList.length === 0) {
         this.empty = true;
