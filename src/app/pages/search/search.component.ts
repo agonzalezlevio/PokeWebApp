@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PokemonService } from '../../services/pokemon.service';
 
 @Component({
   selector: 'app-search',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
-  constructor() { }
+  public pokemonList: any [] = [];
+  public pokemonLoading: boolean;
+
+  constructor(private pokemonService: PokemonService) { }
 
   ngOnInit() {
+    this.pokemonLoading = false;
+    this.pokemonService.getPokemons(807).subscribe(result => {
+      this.pokemonList = result;
+      this.pokemonLoading = true;
+    });
   }
 
 }
