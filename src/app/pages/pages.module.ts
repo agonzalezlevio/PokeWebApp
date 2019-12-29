@@ -12,6 +12,7 @@ import { CardPokemonComponent } from '../components/card-pokemon/card-pokemon.co
 // Modules
 import { PipesModule } from '../pipes/pipes.module';
 import { LoadingComponent } from '../components/loading/loading.component';
+import { NotFoundPokemonComponent } from '../components/not-found-pokemon/not-found-pokemon.component';
 
 
 
@@ -20,7 +21,8 @@ import { LoadingComponent } from '../components/loading/loading.component';
     CardPokemonComponent,
     LoadingComponent,
     HomeComponent,
-    SearchComponent
+    SearchComponent,
+    NotFoundPokemonComponent
   ],
   imports: [
     PAGE_ROUTES,

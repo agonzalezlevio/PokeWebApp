@@ -18,3 +18,6 @@
 <div class="card-columns" *ngIf="pokemonLoading">
   <app-card-pokemon [pokemon]="pokemon"  *ngFor="let pokemon of filteredPokemonList"></app-card-pokemon>
 </div>
+<app-not-found-pokemon *ngIf="empty" ></app-not-found-pokemon>
+
+
