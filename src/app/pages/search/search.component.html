@@ -5,8 +5,16 @@
             Buscar Pokémon
         </span>
     </div>
-    <input type="text" class="form-control form-control-l" placeholder="Nombre pokémon">
+    <input #texto type="text" class="form-control form-control-l" placeholder="Nombre pokémon">
     <div class="input-group-append">
-        <button class="btn bg-dark shadow-none  text-white" type="button">Buscar</button>
+        <button  
+        (click)="busqueda(texto.value)"
+        class="btn bg-dark shadow-none  
+        text-white" type="button">Buscar</button>
       </div>
+</div>
+
+<app-loading *ngIf="!pokemonLoading"></app-loading>
+<div class="card-columns" *ngIf="pokemonLoading">
+  <app-card-pokemon [pokemon]="pokemon"  *ngFor="let pokemon of filteredPokemonList"></app-card-pokemon>
 </div>
