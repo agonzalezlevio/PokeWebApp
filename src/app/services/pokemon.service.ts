@@ -20,6 +20,9 @@ export class PokemonService {
   public pokeGenerationAPI: any;
 
 
+  public cachedPokemonList: any[] = [];
+
+
   constructor(private http: HttpClient) {
     this.pokeAPI = environment.pokemonURL;
     this.pokeSpeciesAPI = environment.pokemonSpeciesURL;
@@ -120,17 +123,41 @@ export class PokemonService {
   }
 
   public getPokemons(limit: number) {
-    return this.http.get(`${this.pokeAPI}?limit=${limit}`)
-      .pipe(
-        switchMap((res: any) => {
+    if (this.cachedPokemonList.length > 0) {
+      return of(this.cachedPokemonList);
+    } else {
+      return this.http.get(`${this.pokeAPI}?limit=${limit}`)
+        .pipe(
+          switchMap((resp: any) => {
+            const pokemons$ = resp.results.map(pokemon => {
+              // Se borra la última '/' de la url y limpiar la url
+              const cleanURL = pokemon.url.slice(0, -1);
+              // Se realiza un parse en la url limpia para obtener la id
+              const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
+              // Se hace un join para cada observable para que los detalles y la especie del pokemon se mantengan juntos
+              return forkJoin(this.getPokemonByName(id), this.getSpeciesByName(id));
+            });
+            return forkJoin(pokemons$);
+          }),
+          map((result: any) => {
+            return this.joinDetailsAndSpecie(result).sort(this.compareID);
+          }),
+          // Se guarda para que simplemente se consulte y no se vuelva a realizar una nueva petición...
+          tap(cachedPokemon => this.cachedPokemonList = cachedPokemon)
+        );
+    }
+  }
 
-          const pokemons$ = res.results.map(pokemon => {
-            return this.getPokemonByName(pokemon.name);
-          });
+  public searchPokemonList(name: string) {
+    const searchTerm = name.toLowerCase();
 
-          return forkJoin(pokemons$);
-        })
-      );
+    const filteredPokemonList = this.cachedPokemonList.filter((pokemon: any) => {
+      if (pokemon.name.indexOf(searchTerm) !== -1 ) {
+        return pokemon;
+      }
+    });
+
+    return of(filteredPokemonList);
   }
 
   public getPokemonByName(name: string) {
