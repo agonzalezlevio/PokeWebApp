@@ -6,9 +6,6 @@ import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs/internal/observable/of';
-import { merge } from 'rxjs/internal/observable/merge';
-import { concat } from 'rxjs/internal/observable/concat';
-import { EMPTY } from 'rxjs';
 
 
 @Injectable({
@@ -50,7 +47,7 @@ export class PokemonService {
         switchMap((resp: any) => {
 
           const pokemons$ = resp.pokemon_species.map(pokemon => {
-            // Se borra la última '/' de la url y limpiar la url
+            // Se borra la última '/' de la url
             const cleanURL = pokemon.url.slice(0, -1);
             // Se realiza un parse en la url limpia para obtener la id
             const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
@@ -73,7 +70,7 @@ export class PokemonService {
         switchMap((resp: any) => {
 
           const pokemons$ = resp.pokemon_species.map(pokemon => {
-            // Se borra la última '/' de la url y limpiar la url
+            // Se borra la última '/' de la url 
             const cleanURL = pokemon.url.slice(0, -1);
             // Se realiza un parse en la url limpia para obtener la id
             const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
@@ -131,7 +128,7 @@ export class PokemonService {
         .pipe(
           map((result: any) => {
             return result.results.map(pokemon => {
-              // Se borra la última '/' de la url y limpiar la url
+              // Se borra la última '/' de la url
               const cleanURL = pokemon.url.slice(0, -1);
               // Se realiza un parse en la url limpia para obtener la id
               const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
@@ -167,8 +164,6 @@ export class PokemonService {
       // No encuentra resultados
       return of([]);
     }
-
-
 
   }
 
