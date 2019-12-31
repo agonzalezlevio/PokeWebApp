@@ -25,6 +25,7 @@ export class SearchComponent implements OnInit {
 
 
   public busqueda(termino: string) {
+    this.filteredPokemonList = [];
     this.pokemonLoading = false;
     this.empty = false;
 
