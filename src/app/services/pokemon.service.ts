@@ -44,16 +44,14 @@ export class PokemonService {
     }));
   }
 
-  public getPokemonsByGeneration(number: number) {
-    return this.http.get(`${this.pokeGenerationAPI}/${number}`)
+  public getPokemonsByGeneration(idGeneration: number) {
+    return this.http.get(`${this.pokeGenerationAPI}/${idGeneration}`)
       .pipe(
         switchMap((resp: any) => {
 
           const pokemons$ = resp.pokemon_species.map(pokemon => {
-            // Se borra la última '/' de la url
-            const cleanURL = pokemon.url.slice(0, -1);
-            // Se realiza un parse en la url limpia para obtener la id
-            const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
+
+            const id = this.getIDfromURL(pokemon.url);
 
             return this.getPokemonBasicDetails(id);
           });
@@ -67,36 +65,36 @@ export class PokemonService {
 
   }
 
-  public getPokemonAllDetails(idPokemon: string) {
+  public getPokemonAllDetails(idPokemon: number) {
     return this.getPokemonSpecieDetails(idPokemon).pipe(
       switchMap((result: any) => {
-      const urlEvolutionChain = result.evolution_chain.url;
-      const cleanURL = urlEvolutionChain.slice(0, -1);
-      const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
 
-      return forkJoin(this.getPokemonEvolutionChain(id), of(result), this.getPokemonBasicDetails(idPokemon));
+        const urlEvolutionChain = result.evolution_chain.url;
+        const id = this.getIDfromURL(urlEvolutionChain);
 
-    }), map (result => {
-      return this.joinDetailPokemon(result);
-    }));
+        return forkJoin(this.getPokemonEvolutionChain(id), of(result), this.getPokemonBasicDetails(idPokemon));
+
+      }), map(result => {
+        return this.joinDetailsPokemon(result);
+      }));
   }
 
-  public getPokemonEvolutionChain(id: string) {
+  public getPokemonEvolutionChain(id: number) {
     return this.http.get(`https://pokeapi.co/api/v2/evolution-chain/${id}`);
   }
 
-  private joinDetailPokemon(result: any) {
+  private joinDetailsPokemon(result: any) {
     return {
-        chain: result[0].chain,
-        stats: result[2].stats,
-        id: result[2].id,
-        height: result[2].height,
-        weight: result[2].weight,
-        types: result[2].types,
-        name: result[2].species.name,
-        genera: result[1].genera,
-        flavor_text_entries: result[1].flavor_text_entries
-      };
+      chain: result[0].chain,
+      stats: result[2].stats,
+      id: result[2].id,
+      height: result[2].height,
+      weight: result[2].weight,
+      types: result[2].types,
+      name: result[2].species.name,
+      genera: result[1].genera,
+      flavor_text_entries: result[1].flavor_text_entries
+    };
   }
 
   public getPokemonsSpeciesByGeneration(number: number) {
@@ -105,40 +103,36 @@ export class PokemonService {
         switchMap((resp: any) => {
 
           const pokemons$ = resp.pokemon_species.map(pokemon => {
-            // Se borra la última '/' de la url
-            const cleanURL = pokemon.url.slice(0, -1);
-            // Se realiza un parse en la url limpia para obtener la id
-            const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
-            // Se hace un join para cada observable para que los detalles y la especie del pokemon se mantengan juntos
+            const id = this.getIDfromURL(pokemon.url);
             return forkJoin(this.getPokemonBasicDetails(id), this.getPokemonSpecieDetails(id));
           });
 
           return forkJoin(pokemons$);
         }),
         map((result: any) => {
-          return this.joinDetailsPokemon(result).sort(this.compareID);
+          return this.joinDetailsPokemons(result).sort(this.compareID);
         })
       );
 
   }
 
 
-  private joinDetailsPokemon(result: any) {
+  private joinDetailsPokemons(result: any) {
     // Nueva lista de pokémon
-      const newList: any[] = [];
-      for (const value of result) {
+    const newList: any[] = [];
+    for (const value of result) {
 
-        const pokemon = {
-          stats: value[0].stats,
-          id: value[0].id,
-          types: value[0].types,
-          name: value[0].species.name,
-          genera: value[1].genera,
-          flavor_text_entries: value[1].flavor_text_entries
-        };
-        newList.push(pokemon);
-      }
-      return newList;
+      const pokemon = {
+        stats: value[0].stats,
+        id: value[0].id,
+        types: value[0].types,
+        name: value[0].species.name,
+        genera: value[1].genera,
+        flavor_text_entries: value[1].flavor_text_entries
+      };
+      newList.push(pokemon);
+    }
+    return newList;
 
   }
 
@@ -162,10 +156,7 @@ export class PokemonService {
         .pipe(
           map((result: any) => {
             return result.results.map(pokemon => {
-              // Se borra la última '/' de la url
-              const cleanURL = pokemon.url.slice(0, -1);
-              // Se realiza un parse en la url limpia para obtener la id
-              const id = cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
+              const id = this.getIDfromURL(pokemon.url);
               return {
                 name: pokemon.name,
                 id
@@ -192,7 +183,7 @@ export class PokemonService {
         return forkJoin(this.getPokemonBasicDetails(id), this.getPokemonSpecieDetails(id));
       });
       return forkJoin(pokemons$).pipe(map((result: any) => {
-        return this.joinDetailsPokemon(result).sort(this.compareID);
+        return this.joinDetailsPokemons(result).sort(this.compareID);
       }));
     } else {
       // No encuentra resultados
@@ -201,12 +192,21 @@ export class PokemonService {
 
   }
 
-  public getPokemonBasicDetails(name: string) {
-    return this.http.get(`${this.pokeAPI}/${name}`);
+  public getPokemonBasicDetails(id: number) {
+    return this.http.get(`${this.pokeAPI}/${id}`);
   }
 
 
-  public getPokemonSpecieDetails(name: string) {
-    return this.http.get(`${this.pokeSpeciesAPI}/${name}`);
+  public getPokemonSpecieDetails(id: number) {
+    return this.http.get(`${this.pokeSpeciesAPI}/${id}`);
   }
+
+
+  private getIDfromURL(url: string): number {
+    // Se borra la última '/' de la url
+    const cleanURL = url.slice(0, -1);
+    // Se retorna un parse en la url limpia para obtener la id
+    return Number(cleanURL.substr(cleanURL.lastIndexOf('/') + 1));
+  }
+
 }
