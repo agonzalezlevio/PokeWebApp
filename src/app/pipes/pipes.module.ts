@@ -3,7 +3,7 @@ import { CapitalizePipe } from './capitalize.pipe';
 import { PokemonImagenPipe } from './pokemonImagen.pipe';
 import { TypeToSpanishPipe } from './type-to-spanish.pipe';
 import { FlavorTextToSpanish } from './flavorText-to-Spanish.pipe';
-import { EvoPipe } from './evo.pipe';
+import { EvoPokemonPipe } from './evo.pipe';
 import { StatsPokemonPipe } from './stats.pipe';
 
 
@@ -13,7 +13,7 @@ import { StatsPokemonPipe } from './stats.pipe';
     PokemonImagenPipe,
     TypeToSpanishPipe,
     FlavorTextToSpanish,
-    EvoPipe,
+    EvoPokemonPipe,
     StatsPokemonPipe
   ],
   imports: [
@@ -23,7 +23,7 @@ import { StatsPokemonPipe } from './stats.pipe';
     PokemonImagenPipe,
     TypeToSpanishPipe,
     FlavorTextToSpanish,
-    EvoPipe,
+    EvoPokemonPipe,
     StatsPokemonPipe
   ]
 })

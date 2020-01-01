@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
 import { COLOURS } from 'src/app/interfaces/colorPokemon.enum';
 
@@ -13,7 +13,7 @@ export class PokemonComponent implements OnInit {
   public pokemonLoading: boolean;
   public pokemon: any;
 
-  constructor(private ActivateRoute: ActivatedRoute, private pokemonService: PokemonService) {
+  constructor(private ActivateRoute: ActivatedRoute, private pokemonService: PokemonService, private router: Router) {
     this.pokemonLoading = true;
   }
 
@@ -33,6 +33,10 @@ export class PokemonComponent implements OnInit {
     if (type) {
       return '#' + COLOURS[type];
     }
+  }
+
+  public verMas(id: string) {
+    this.router.navigate(['/pokemon', id]);
   }
 
 }

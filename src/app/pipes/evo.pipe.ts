@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'evoChain'
 })
-export class EvoPipe implements PipeTransform {
+export class EvoPokemonPipe implements PipeTransform {
 
   transform(response: string) {
 
@@ -14,10 +14,10 @@ export class EvoPipe implements PipeTransform {
 
     do {
 
-      const evoDetails = evoData.evolution_details[0];
+      const evoDetails = evoData.evolution_details[0]; // Pronto se usará
       evoChain.push({
         name: evoData.species.name,
-        id: this.getIDfromURL(evoData.species.url)
+        id: this.getIDfromURL(evoData.species.url),
       });
 
       if (numeroEvoluciones > 1) {
@@ -29,14 +29,15 @@ export class EvoPipe implements PipeTransform {
         }
       }
       evoData = evoData.evolves_to[0];
+
     } while (!!evoData && evoData.hasOwnProperty('evolves_to'));
 
     return evoChain;
 
   }
-  private getIDfromURL(url: string): string {
+  private getIDfromURL(url: string): number {
     const cleanURL = url.slice(0, -1);
-    return cleanURL.substr(cleanURL.lastIndexOf('/') + 1);
+    return Number(cleanURL.substr(cleanURL.lastIndexOf('/') + 1));
   }
 
 }

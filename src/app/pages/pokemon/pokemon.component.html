@@ -55,10 +55,13 @@
         <div class="col-md-12">
             <h3>Evoluciones</h3>
             <div class="card-columns">
-                <div class="card text-center  " *ngFor="let pokemonEvo of pokemon.chain | evoChain ">
+                <div class="card text-center  " *ngFor="let pokemonEvo of pokemon.chain | evoChain as result ">
+                    <h6 class="text-muted mt-3" *ngIf="result.length === 1">Este Pokémon no evoluciona.</h6>
                     <h4 class="card-title font-weight-bold mt-3">N.º{{pokemonEvo.id}}</h4>
-                    <img class="card-img-top mx-auto d-block img-thumb img-fluid"
-                        [src]="pokemonEvo.id | pokemonImagen:true" [alt]="pokemonEvo.name">
+                    <img 
+                        (click)="verMas(pokemonEvo.id)"
+                        class="card-img-top mx-auto d-block img-thumb img-fluid puntero"
+                        [src]="pokemonEvo.id | pokemonImagen:true " [alt]="pokemonEvo.name">
                     <div class="card-body">
                         <h4 class="card-title">{{pokemonEvo.name | capitalize}}</h4>
                     </div>

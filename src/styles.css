@@ -6,3 +6,8 @@ html {
 .bg-red {
     background-color:#c62828 !important; 
 }
+
+.puntero{
+    cursor: pointer;
+  }
+  
