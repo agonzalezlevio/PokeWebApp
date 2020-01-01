@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { COLOURS } from 'src/app/interfaces/colorPokemon.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-pokemon',
@@ -11,7 +12,7 @@ export class CardPokemonComponent implements OnInit {
   @Input() pokemon: any ;
 
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -20,6 +21,11 @@ export class CardPokemonComponent implements OnInit {
     if (type) {
       return '#' + COLOURS[type];
     }
+  }
+
+
+  public verMas(id: string) {
+    this.router.navigate(['/pokemon', id]);
   }
 
 }

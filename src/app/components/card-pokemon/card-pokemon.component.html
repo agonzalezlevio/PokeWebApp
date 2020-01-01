@@ -13,5 +13,11 @@
     </div>
         <div class="card-footer">
            {{pokemon.flavor_text_entries | flavorTextToSpanish}} 
+
+           <button 
+           (click)="verMas(pokemon.id)"
+           type="button" 
+           class="btn bg-red btn-lg btn-block mt-3 text-white">Ver más</button>
+           
         </div>
 </div>

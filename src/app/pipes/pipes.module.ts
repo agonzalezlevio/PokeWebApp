@@ -3,6 +3,8 @@ import { CapitalizePipe } from './capitalize.pipe';
 import { PokemonImagenPipe } from './pokemonImagen.pipe';
 import { TypeToSpanishPipe } from './type-to-spanish.pipe';
 import { FlavorTextToSpanish } from './flavorText-to-Spanish.pipe';
+import { EvoPipe } from './evo.pipe';
+import { StatsPokemonPipe } from './stats.pipe';
 
 
 @NgModule({
@@ -10,7 +12,9 @@ import { FlavorTextToSpanish } from './flavorText-to-Spanish.pipe';
     CapitalizePipe,
     PokemonImagenPipe,
     TypeToSpanishPipe,
-    FlavorTextToSpanish
+    FlavorTextToSpanish,
+    EvoPipe,
+    StatsPokemonPipe
   ],
   imports: [
   ],
@@ -18,7 +22,9 @@ import { FlavorTextToSpanish } from './flavorText-to-Spanish.pipe';
     CapitalizePipe,
     PokemonImagenPipe,
     TypeToSpanishPipe,
-    FlavorTextToSpanish
+    FlavorTextToSpanish,
+    EvoPipe,
+    StatsPokemonPipe
   ]
 })
 export class PipesModule { }
