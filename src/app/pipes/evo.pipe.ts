@@ -7,34 +7,43 @@ export class EvoPokemonPipe implements PipeTransform {
 
   transform(response: string) {
 
-    let evoData: any = response;
+    const evolutionDetails: any = response;
+    const evolutions: any[] = [];
 
-    const evoChain: any = [];
-    const numeroEvoluciones = evoData.evolves_to.length;
+    const numeroEvoluciones = evolutionDetails.evolves_to.length;
 
-    do {
+    let data = evolutionDetails;
 
-      const evoDetails = evoData.evolution_details[0]; // Pronto se usará
-      evoChain.push({
-        name: evoData.species.name,
-        id: this.getIDfromURL(evoData.species.url),
-      });
-
+    while (data) {
       if (numeroEvoluciones > 1) {
-        for (const evo of evoData.evolves_to) {
-          evoChain.push({
+        // Primer pokémon
+        if (data.evolves_to.length !== 0) {
+          evolutions.push({
+            name: data.species.name,
+            id: this.getIDfromURL(data.species.url)
+          });
+        }
+        // Resto de evoluciones especiales
+        for (const evo of data.evolves_to) {
+          evolutions.push({
             name: evo.species.name,
             id: this.getIDfromURL(evo.species.url)
-         });
+          });
         }
+      } else {
+        // evoluciones normales
+        evolutions.push({
+          name: data.species.name,
+          id: this.getIDfromURL(data.species.url)
+        });
       }
-      evoData = evoData.evolves_to[0];
+      data = data.evolves_to[0];
+    }
 
-    } while (!!evoData && evoData.hasOwnProperty('evolves_to'));
-
-    return evoChain;
-
+    return evolutions;
   }
+
+
   private getIDfromURL(url: string): number {
     const cleanURL = url.slice(0, -1);
     return Number(cleanURL.substr(cleanURL.lastIndexOf('/') + 1));
