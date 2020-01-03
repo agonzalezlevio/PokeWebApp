@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit {
     this.pokemonLoading = false;
     this.empty = false;
 
-    if (termino.length > 2) {
+    if (termino.length > 1) {
       this.pokemonService.searchPokemonList(termino).subscribe(result => {
 
         this.filteredPokemonList = result;

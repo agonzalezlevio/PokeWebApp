@@ -1,23 +1,20 @@
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <span class="input-group-text text-white ">
-            <img src="assets/img/pokeballLogo.svg" width="22" height="22" class="d-inline-block align-top" alt="Pokeball">
-            Buscar Pokémon
-        </span>
-    </div>
-    <input #texto type="text" class="form-control form-control-l" placeholder="Nombre pokémon">
-    <div class="input-group-append">
-        <button 
-        (click)="busqueda(texto.value)"
-        class="btn bg-dark shadow-none  
-        text-white" type="button">Buscar</button>
-      </div>
+<div class="input-group input-group-lg mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text text-white" id="inputGroup-sizing-lg">
+      Buscar Pokémon
+      <i class="fa fa-search ml-2 fa-1x" aria-hidden="true"></i>
+    </span>
+  </div>
+  <input #texto type="text" class="form-control" aria-label="Sizing example input"
+    aria-describedby="inputGroup-sizing-lg" (keyup.enter)="busqueda(texto.value)">
+  <div class="input-group-append">
+    <button (click)="busqueda(texto.value)" class="btn bg-dark shadow-none  
+    text-white" type="button">Buscar</button>
+  </div>
 </div>
 
 <app-loading *ngIf="!pokemonLoading"></app-loading>
 <div class="card-columns" *ngIf="pokemonLoading">
-  <app-card-pokemon [pokemon]="pokemon"  *ngFor="let pokemon of filteredPokemonList"></app-card-pokemon>
+  <app-card-pokemon [pokemon]="pokemon" *ngFor="let pokemon of filteredPokemonList"></app-card-pokemon>
 </div>
-<app-not-found-pokemon *ngIf="empty" ></app-not-found-pokemon>
-
-
+<app-not-found-pokemon *ngIf="empty"></app-not-found-pokemon>
