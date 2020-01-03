@@ -4,7 +4,6 @@ import { PokemonImagenPipe } from './pokemonImagen.pipe';
 import { TypeToSpanishPipe } from './type-to-spanish.pipe';
 import { FlavorTextToSpanish } from './flavorText-to-Spanish.pipe';
 import { EvoPokemonPipe } from './evo.pipe';
-import { StatsPokemonPipe } from './stats.pipe';
 
 
 @NgModule({
@@ -13,8 +12,7 @@ import { StatsPokemonPipe } from './stats.pipe';
     PokemonImagenPipe,
     TypeToSpanishPipe,
     FlavorTextToSpanish,
-    EvoPokemonPipe,
-    StatsPokemonPipe
+    EvoPokemonPipe
   ],
   imports: [
   ],
@@ -23,8 +21,7 @@ import { StatsPokemonPipe } from './stats.pipe';
     PokemonImagenPipe,
     TypeToSpanishPipe,
     FlavorTextToSpanish,
-    EvoPokemonPipe,
-    StatsPokemonPipe
+    EvoPokemonPipe
   ]
 })
 export class PipesModule { }

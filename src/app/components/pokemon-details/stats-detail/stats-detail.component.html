@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-header bg-red text-white">
+        <h5 class="mb-0">Estadísticas base</h5>
+    </div>
+    <div class="card-body">
+
+        <app-stats-detail-item *ngFor="let itemStat of statsList" 
+            [stat]="itemStat.name"
+            [value]="itemStat.value" 
+            [valueGraph]="itemStat.normalized"
+            [statID]="itemStat.id">
+        </app-stats-detail-item>
+
+    </div>
+</div>
+

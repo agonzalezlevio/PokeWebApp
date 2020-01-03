@@ -19,7 +19,6 @@ export class PokemonComponent implements OnInit {
 
   ngOnInit() {
     this.ActivateRoute.paramMap.subscribe( (resp: any)  => {
-
       const pokemonID = resp.params.id;
 
       this.pokemonService.getPokemonAllDetails(pokemonID).subscribe(result => {

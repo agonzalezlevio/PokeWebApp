@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PokemonService } from '../../../services/pokemon.service';
 
 @Component({
-  selector: 'app-effectiveness-detail',
-  templateUrl: './effectiveness-detail.component.html',
-  styleUrls: ['./effectiveness-detail.component.css']
+  selector: 'app-type-relations-detail',
+  templateUrl: './type-relations-detail.component.html',
+  styleUrls: ['./type-relations-detail.component.css']
 })
-export class EffectivenessDetailComponent implements OnInit {
+export class TypeRelationsDetailComponent implements OnInit {
 
 
   @Input() pokemonTypes: any[];
@@ -43,7 +43,7 @@ export class EffectivenessDetailComponent implements OnInit {
   }
 
 
-  getTypeRelations() {
+  public getTypeRelations() {
     for (const typeDetails of this.typesDetails) {
       const damageRelations = typeDetails.damage_relations;
       this.setTypeInListRelations(damageRelations.no_damage_to, this.noDamageTo);

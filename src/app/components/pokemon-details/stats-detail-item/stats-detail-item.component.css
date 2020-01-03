@@ -1,0 +1,32 @@
+.progress {
+    height: 25px;
+  }
+  
+.progress {
+    position: relative;
+	height: 25px;
+}
+
+.hp {
+	background: rgb(180, 1, 1);
+}
+  
+.attack {
+	background: rgb(223, 101, 13);
+}
+
+.defense {
+	background: rgb(233, 197, 56);
+}
+
+.speed {
+	background: rgb(206, 95, 137);
+}
+
+.spatk {
+	background: rgb(1, 92, 167);
+}
+
+.spdef {
+	background: rgb(28, 163, 35);
+}

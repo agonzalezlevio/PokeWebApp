@@ -1,10 +1,11 @@
-<div class="mt-1">
-    <h5>{{leyenda}}</h5>
-    <h5>
+<div>
+    <h6>{{leyenda}}</h6>
+    <h6>
         <span *ngFor="let item of types" [style.background]="getTypeColour(item.name)"
             class="badge text-white mr-1 mt-1">{{item.name | typeToSpanish | capitalize}}</span>
-    </h5>
-    <span *ngIf="types.length === 0" class="text-muted"> No hay tipos asociados</span>
-    <h6></h6>
+    </h6>
+    <h6 *ngIf="types.length === 0" >
+    <span style="background-color: black;" class="badge text-white mr-1 mt-1">Ninguno</span>
+    </h6>
 </div>
 

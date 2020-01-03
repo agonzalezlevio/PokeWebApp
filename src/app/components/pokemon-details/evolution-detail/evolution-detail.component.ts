@@ -13,7 +13,7 @@ export class EvolutionDetailComponent implements OnInit {
   public pokemon: any;
   public loading: boolean;
 
-  constructor(private pokemonService: PokemonService, private router: Router) { 
+  constructor(private pokemonService: PokemonService, private router: Router) {
     this.loading = false;
 
   }
@@ -26,7 +26,9 @@ export class EvolutionDetailComponent implements OnInit {
   }
 
   public verMas(id: string) {
-    this.router.navigate(['/pokemon', id]);
+      this.router.navigate(['/pokemon', id]).then(_ => {
+        window.location.reload();
+      });
   }
 
 }

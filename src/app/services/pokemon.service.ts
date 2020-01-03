@@ -98,6 +98,7 @@ export class PokemonService {
       idChain: this.getIDfromURL(result[0].evolution_chain.url),
       stats: result[1].stats,
       id: result[1].id,
+      abilities: result[1].abilities,
       height: result[1].height,
       weight: result[1].weight,
       types: result[1].types,
