@@ -1,0 +1,12 @@
+.card-header .fa {
+    transition: .3s transform ease-in-out;
+  }
+
+.card-header .collapsed .fa {
+    transform: rotate(90deg);
+  }
+
+  hr {
+    background-color: rgba(0,0,0,.125);
+  }
+  

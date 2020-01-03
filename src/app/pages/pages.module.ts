@@ -11,6 +11,9 @@ import { CardPokemonComponent } from '../components/card-pokemon/card-pokemon.co
 import { LoadingComponent } from '../components/loading/loading.component';
 import { NotFoundPokemonComponent } from '../components/not-found-pokemon/not-found-pokemon.component';
 import { PokemonComponent } from './pokemon/pokemon.component';
+import { EvolutionDetailComponent } from '../components/pokemon-details/evolution-detail/evolution-detail.component';
+import { EffectivenessDetailComponent } from '../components/pokemon-details/effectiveness-detail/effectiveness-detail.component';
+import { TypesPokemonComponent } from '../components/types-pokemon/types-pokemon.component';
 
 
 // Modules
@@ -26,7 +29,10 @@ import { PipesModule } from '../pipes/pipes.module';
     HomeComponent,
     SearchComponent,
     NotFoundPokemonComponent,
-    PokemonComponent
+    PokemonComponent,
+    EvolutionDetailComponent,
+    EffectivenessDetailComponent,
+    TypesPokemonComponent
   ],
   imports: [
     PAGE_ROUTES,

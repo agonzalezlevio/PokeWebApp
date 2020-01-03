@@ -13,7 +13,7 @@ export class PokemonComponent implements OnInit {
   public pokemonLoading: boolean;
   public pokemon: any;
 
-  constructor(private ActivateRoute: ActivatedRoute, private pokemonService: PokemonService, private router: Router) {
+  constructor(private ActivateRoute: ActivatedRoute, private pokemonService: PokemonService) {
     this.pokemonLoading = true;
   }
 
@@ -35,8 +35,6 @@ export class PokemonComponent implements OnInit {
     }
   }
 
-  public verMas(id: string) {
-    this.router.navigate(['/pokemon', id]);
-  }
+  
 
 }

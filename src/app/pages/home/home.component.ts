@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
   public onChange(value: any) {
     this.pokemonLoading = false;
 
-    this.pokemonService.getPokemonsSpeciesByGeneration(value.index).subscribe((result: any) => {
+    this.pokemonService.getPokemonsAllDetailsByGeneration(value.index).subscribe((result: any) => {
       this.generationSelected = value.name.toUpperCase();
       this.pokemonList = result;
       this.pokemonLoading = true;

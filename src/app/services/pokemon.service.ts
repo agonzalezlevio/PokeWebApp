@@ -19,7 +19,9 @@ export class PokemonService {
   public pokeAPI: any;
   public pokeSpeciesAPI: any;
   public pokeGenerationAPI: any;
-
+  public pokeEvolutionChainAPI: any;
+  public pokeTypeRelationsAPI: any;
+  
 
   public cachedPokemonList: any[] = [];
 
@@ -28,6 +30,8 @@ export class PokemonService {
     this.pokeAPI = environment.pokemonURL;
     this.pokeSpeciesAPI = environment.pokemonSpeciesURL;
     this.pokeGenerationAPI = environment.pokemonGeneration;
+    this.pokeEvolutionChainAPI = environment.pokemonEvolutionChain;
+    this.pokeTypeRelationsAPI = environment.pokemonTypeRelations;
   }
 
   public getGenerations() {
@@ -66,38 +70,44 @@ export class PokemonService {
   }
 
   public getPokemonAllDetails(idPokemon: number) {
-    return this.getPokemonSpecieDetails(idPokemon).pipe(
-      switchMap((result: any) => {
-
-        const urlEvolutionChain = result.evolution_chain.url;
-        const id = this.getIDfromURL(urlEvolutionChain);
-
-        return forkJoin(this.getPokemonEvolutionChain(id), of(result), this.getPokemonBasicDetails(idPokemon));
-
-      }), map(result => {
+    return forkJoin(this.getPokemonSpecieDetails(idPokemon), this.getPokemonBasicDetails(idPokemon)).pipe(
+      map(result => {
         return this.joinDetailsPokemon(result);
       }));
   }
 
   public getPokemonEvolutionChain(id: number) {
-    return this.http.get(`https://pokeapi.co/api/v2/evolution-chain/${id}`);
+    return this.http.get(`${this.pokeEvolutionChainAPI}/${id}`);
+  }
+
+  public getDetailsType(types: any[]) {
+    const typesResponse$: any [] = [];
+    types.map((slot: any) => {
+      const idType = this.getIDfromURL(slot.type.url);
+      typesResponse$.push(this.getType(idType));
+    });
+    return forkJoin(typesResponse$);
+  }
+
+  public getType(id: number) {
+    return this.http.get(`${this.pokeTypeRelationsAPI}/${id}`);
   }
 
   private joinDetailsPokemon(result: any) {
     return {
-      chain: result[0].chain,
-      stats: result[2].stats,
-      id: result[2].id,
-      height: result[2].height,
-      weight: result[2].weight,
-      types: result[2].types,
-      name: result[2].species.name,
-      genera: result[1].genera,
-      flavor_text_entries: result[1].flavor_text_entries
+      idChain: this.getIDfromURL(result[0].evolution_chain.url),
+      stats: result[1].stats,
+      id: result[1].id,
+      height: result[1].height,
+      weight: result[1].weight,
+      types: result[1].types,
+      name: result[1].species.name,
+      genera: result[0].genera,
+      flavor_text_entries: result[0].flavor_text_entries
     };
   }
 
-  public getPokemonsSpeciesByGeneration(number: number) {
+  public getPokemonsAllDetailsByGeneration(number: number) {
     return this.http.get(`${this.pokeGenerationAPI}/${number}`)
       .pipe(
         switchMap((resp: any) => {
@@ -115,7 +125,6 @@ export class PokemonService {
       );
 
   }
-
 
   private joinDetailsPokemons(result: any) {
     // Nueva lista de pokémon

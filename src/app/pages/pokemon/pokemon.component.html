@@ -1,38 +1,39 @@
 <div *ngIf="!pokemonLoading">
-    <h1>{{pokemon.name | capitalize}}</h1>
-    <h4 class="card-text"><small class="text-muted">{{pokemon.genera[4].genus}}</small></h4>
-
+    <h1>{{pokemon.name | capitalize}} <small class="text-muted">Nº{{pokemon.id}}</small></h1>
 
     <div class="row">
         <div class="col-md-3">
             <img class="img-fluid " [src]="pokemon.id | pokemonImagen:true" [alt]="pokemon.name">
             <div class="row">
-                <div class="col-lg-6 ">
-                    <h6>
+                <div class="col-md-6 ">
+                    <h5>
                         Altura
-                    </h6>
+                    </h5>
                     {{pokemon.height/10}} m
                     
                 </div>
-                <div class="col-lg-6 ">
-                    <h6>Peso</h6>
+                <div class="col-md-6 ">
+                    <h5>Peso</h5>
                     {{pokemon.weight/10}} kg
                 </div>
+                <div class="col-md-12 mt-1">
+                    <h5>Tipo</h5>
+                    <h4>
+                        <span *ngFor="let item of pokemon.types" [style.background]="getTypeColour(item.type.name)"
+                            class="badge text-white mr-2">{{item.type.name | typeToSpanish | capitalize}}</span>
+                    </h4>
+                </div>
             </div>
+            <!-- <app-effectiveness-detail [pokemonTypes]="pokemon.types"></app-effectiveness-detail> -->
+
         </div>
         <div class="col-md-9">
-
+            <h5>{{pokemon.genera[4].genus}}</h5>
             <div class="text-justify">
                 {{pokemon.flavor_text_entries | flavorTextToSpanish}}
             </div>
         
-            <div class="mt-1">
-                <h5>Tipo</h5>
-                <h5>
-                    <span *ngFor="let item of pokemon.types" [style.background]="getTypeColour(item.type.name)"
-                        class="badge text-white mr-2">{{item.type.name | typeToSpanish | capitalize}}</span>
-                </h5>
-            </div>
+            
 
             <div class="mt-1">
                 <h5>Estadísticas de base</h5>
@@ -46,31 +47,20 @@
 
             </div>
 
+            <div>
+                <app-effectiveness-detail [pokemonTypes]="pokemon.types"></app-effectiveness-detail>
+            </div>
 
+            
         </div>
 
 
     </div>
     <div class="row mt-3">
         <div class="col-md-12">
-            <h3>Evoluciones</h3>
-            <div class="card-columns">
-                <div class="card text-center  " *ngFor="let pokemonEvo of pokemon.chain | evoChain as result ">
-                    <h6 class="text-muted mt-3" *ngIf="result.length === 1">Este Pokémon no evoluciona.</h6>
-                    <h4 class="card-title font-weight-bold mt-3">N.º{{pokemonEvo.id}}</h4>
-                    <img 
-                        (click)="verMas(pokemonEvo.id)"
-                        class="card-img-top mx-auto d-block img-thumb img-fluid puntero"
-                        [src]="pokemonEvo.id | pokemonImagen:true " [alt]="pokemonEvo.name">
-                    <div class="card-body">
-                        <h4 class="card-title">{{pokemonEvo.name | capitalize}}</h4>
-                    </div>
-                </div>
-            </div>
+            <app-evolution-detail [pokemonChainID]="pokemon.idChain" ></app-evolution-detail>
             <button [routerLink]="['/home']" type="button" class="btn bg-red text-white float-right mt-5"> <i
                     class="fa fa-arrow-left"></i> Regresar</button>
         </div>
-
-
     </div>
 </div>
