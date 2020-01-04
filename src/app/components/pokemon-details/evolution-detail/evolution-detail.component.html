@@ -5,7 +5,7 @@
         </div>
         <div class="card-body">
             <div class="card-columns" >
-                <div class="card text-center  " *ngFor="let pokemonEvo of pokemon.chain | evoChain as result ">
+                <div class="card text-center  " *ngFor="let pokemonEvo of pokemon as result ">
                     <h6 class="text-muted mt-3" *ngIf="result.length === 1">Este Pokémon no evoluciona.</h6>
                     <h4 class="card-title font-weight-bold mt-3">N.º{{pokemonEvo.id}}</h4>
                     <img 

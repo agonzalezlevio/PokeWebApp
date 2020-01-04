@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-stats-detail',
   templateUrl: './stats-detail.component.html',
   styleUrls: ['./stats-detail.component.css']
 })
-export class StatsDetailComponent implements OnInit {
+export class StatsDetailComponent implements OnInit, OnChanges {
 
 
   @Input() stats: any[];
@@ -22,10 +22,14 @@ export class StatsDetailComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+
+  ngOnChanges() {
     this.setStatInList(this.stats);
   }
 
+  ngOnInit() {
+
+  }
 
   public setStatInList(stats: any[]) {
     stats.map(resp => {

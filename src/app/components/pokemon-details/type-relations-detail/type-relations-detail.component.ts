@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { PokemonService } from '../../../services/pokemon.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { PokemonService } from '../../../services/pokemon.service';
   templateUrl: './type-relations-detail.component.html',
   styleUrls: ['./type-relations-detail.component.css']
 })
-export class TypeRelationsDetailComponent implements OnInit {
+export class TypeRelationsDetailComponent implements OnInit, OnChanges {
 
 
   @Input() pokemonTypes: any[];
@@ -35,11 +35,26 @@ export class TypeRelationsDetailComponent implements OnInit {
     this.noDamageTo = [];
    }
 
-  ngOnInit() {
+  ngOnChanges() {
+    // Limpiar Listas de relaciones de tipo
+    this.doubleDamageFrom = [];
+    this.doubleDamageTo = [];
+    this.halfDamageFrom = [];
+    this.halfDamageTo = [];
+    this.noDamageFrom = [];
+    this.noDamageTo = [];
+
+    this.loading = false;
     this.pokemonService.getDetailsType(this.pokemonTypes).subscribe((result: any) => {
       this.typesDetails = result;
       this.getTypeRelations();
     });
+
+    
+  }
+
+  ngOnInit() {
+    
   }
 
 
@@ -58,11 +73,22 @@ export class TypeRelationsDetailComponent implements OnInit {
 
   public setTypeInListRelations(damageRelationList: any [], typeRelationsList: any []) {
     for (const type of damageRelationList) {
-      if (!(type in typeRelationsList)) {
+      if (!this.containsTypeNameInList(typeRelationsList, type)) {
         typeRelationsList.push(type);
       }
     }
   }
+
+
+  public containsTypeNameInList(typeRelationsList: any, typePokemon: any){
+    for (const type of typeRelationsList) {
+        if (type.name === typePokemon.name) {
+            return true;
+        }
+    }
+    return false;
+  }
+
 
 
 }
