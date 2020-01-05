@@ -20,7 +20,7 @@ export class PokemonService {
   public pokeEvolutionChainAPI: any;
   public pokeTypeRelationsAPI: any;
   public pokeAbilitiesAPI: any;
-  
+
 
   public cachedPokemonList: any[] = [];
 
@@ -43,14 +43,14 @@ export class PokemonService {
 
   // Forma alternativa comunicación para sub componentes en cascada
 
-  public fetchDataPokemonBasicsDetails(idPokemon: number){
+  public fetchDataPokemonBasicsDetails(idPokemon: number) {
     this.getPokemonBasicDetails(idPokemon).subscribe((result: any) => {
       this.dataPokemonBasicsDetails.next(result);
 
       // Solicitud de detalles de la especie Pokémon
       const idSpecies = this.getIDfromURL(result.species.url);
       this.fetchDataPokemonSpecieDetails(idSpecies);
-  
+
       // Solicitud de detalles del typo del Pokémon
       const types: any[] = result.types;
       this.fetchDataPokemonTypeDetails(types);
@@ -87,9 +87,20 @@ export class PokemonService {
 
   public fetchDataPokemonAbilitiesDetails(ability: any[]) {
     this.getAbilities(ability).subscribe((result: any) => {
-      this.dataPokemonAbilitiesDetails.next(result);
+
+      this.dataPokemonAbilitiesDetails.next(this.mergeAbilityDetailsById(ability, result));
     })
   }
+
+  public mergeAbilityDetailsById(ability: any[], result: any[]) {
+    return ability.map(itemAbility => (
+      {
+        ...result.find((itemResult) => (itemResult.id === this.getIDfromURL(itemAbility.ability.url)) && itemResult),
+        ...itemAbility
+      }
+    ));
+  }
+
 
   public getGenerations() {
     return this.http.get(`${this.pokeGenerationAPI}`).pipe(map((resp: any) => {
@@ -123,9 +134,9 @@ export class PokemonService {
 
   }
 
-  
+
   public getDetailsType(types: any[]) {
-    const typesResponse$: any [] = [];
+    const typesResponse$: any[] = [];
     types.map((slot: any) => {
       const idType = this.getIDfromURL(slot.type.url);
       typesResponse$.push(this.getType(idType));
@@ -143,7 +154,7 @@ export class PokemonService {
   }
 
   public getAbilities(abilities: any[]) {
-    const abilities$: any [] = [];
+    const abilities$: any[] = [];
     abilities.map((slot: any) => {
       const idAbility = this.getIDfromURL(slot.ability.url);
       abilities$.push(this.getAbility(idAbility));
@@ -151,7 +162,7 @@ export class PokemonService {
     return forkJoin(abilities$);
   }
 
- 
+
   public getPokemonsBasicDetailsByGeneration(number: number) {
     return this.http.get(`${this.pokeGenerationAPI}/${number}`)
       .pipe(
