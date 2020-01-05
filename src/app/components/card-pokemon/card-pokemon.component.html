@@ -1,17 +1,17 @@
 <div class="card text-center mt-3">
     <br>
     <h4 class="card-title font-weight-bold">N.º{{pokemon.id}}</h4>
-    <img class="card-img-top mx-auto d-block img-thumb img-fluid" [src]="pokemon.id | pokemonImagen:true" [alt]="pokemon.name">
+    <img (click)="verMas(pokemon.id)" class="card-img-top mx-auto d-block img-thumb img-fluid puntero" [src]="pokemon.id | pokemonImagen:1" [alt]="pokemon.name">
     <div class="card-body">
       <h4 class="card-text ">{{pokemon.name | capitalize }}</h4>
-      <h5 class="card-text"><small class="text-muted">{{pokemon.genera[4].genus}}</small></h5>
+      <!-- <h5 class="card-text"><small class="text-muted">{{pokemon.genera[4].genus}}</small></h5> -->
       <h3>
         <span *ngFor="let item of pokemon.types" 
         [style.background]="getTypeColour(item.type.name)"
         class="badge text-white mr-2">{{item.type.name | typeToSpanish | capitalize}}</span>
       </h3>
     </div>
-        <div class="card-footer">
+        <!-- <div class="card-footer">
            {{pokemon.flavor_text_entries | flavorTextToSpanish}} 
 
            <button 
@@ -19,5 +19,5 @@
            type="button" 
            class="btn bg-red btn-lg btn-block mt-3 text-white">Ver más</button>
            
-        </div>
+        </div> -->
 </div>

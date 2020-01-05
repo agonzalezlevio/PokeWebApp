@@ -1,0 +1,13 @@
+<div class="card" *ngIf="loading">
+    <div class="card-header bg-red text-white font-weight-bold">
+        <h5 class="mb-0">Habilidades</h5>
+    </div>
+    <div class="card-body">
+        <div class="" *ngFor="let ability of abilities; let i = index">
+            <h4 [ngClass]="{'mt-3': i>0}" >{{ability.names | nameTextToSpanish}}
+                <span class="badge bg-red text-white">{{(i===0)? 'Normal': 'Oculta'}}</span>
+            </h4>
+            <p class="card-text">{{ability.flavor_text_entries | flavorTextToSpanish}}</p>
+        </div>
+    </div>
+</div>

@@ -14,30 +14,27 @@ export class PokemonComponent implements OnInit {
   public pokemon: any;
 
   constructor(private ActivateRoute: ActivatedRoute, private pokemonService: PokemonService) {
-    this.pokemonLoading = true;
+    this.pokemonLoading = false;
+    this.pokemonService.dataPokemonBasicsDetails.subscribe(result => {
+      this.pokemon = result;
+      this.pokemonLoading = true;
+    })
   }
 
   ngOnChanges() {
    
   }  
 
-  ngOnInit() {
+  ngAfterViewInit(): void {
     this.ActivateRoute.paramMap.subscribe( (resp: any)  => {
       const pokemonID = resp.params.id;
-
-      this.pokemonService.getPokemonAllDetails(pokemonID).subscribe(result => {
-        this.pokemon = {...result};
-        this.pokemonLoading = false;
-      });
+      this.pokemonService.fetchDataPokemonBasicsDetails(pokemonID);
     });
   }
 
-  public getTypeColour(type: string) {
-    if (type) {
-      return '#' + COLOURS[type];
-    }
+
+  ngOnInit() {
   }
 
-  
 
 }

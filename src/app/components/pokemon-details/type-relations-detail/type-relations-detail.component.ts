@@ -9,16 +9,15 @@ import { PokemonService } from '../../../services/pokemon.service';
 export class TypeRelationsDetailComponent implements OnInit, OnChanges {
 
 
-  @Input() pokemonTypes: any[];
 
   private typesDetails: any[];
 
   private doubleDamageFrom: any[]; // Una lista de tipos que son muy efectivos contra este tipo.
   private halfDamageFrom: any[]; // Una lista de tipos que no son muy efectivos contra este tipo.
   private noDamageFrom: any[]; // Una lista de los tipos que no tienen ningún efecto sobre este tipo.
-  private doubleDamageTo: any[]; // Una lista de tipos de este tipo tiene un gran efecto en contra.
-  private halfDamageTo: any[]; // Una lista de tipos de este tipo no tiene mucho efecto en contra.
-  private noDamageTo: any[]; // Una lista de tipos de este tipo no tiene ningún efecto.
+  private doubleDamageTo: any[]; // Una lista de tipos que tiene un gran efecto en contra.
+  private halfDamageTo: any[]; // Una lista de tipos que no tiene mucho efecto en contra.
+  private noDamageTo: any[]; // Una lista de tipos que no tiene ningún efecto.
 
 
 
@@ -26,30 +25,17 @@ export class TypeRelationsDetailComponent implements OnInit, OnChanges {
 
   constructor(private pokemonService: PokemonService) {
     this.loading = false;
+  
     this.typesDetails = [];
-    this.doubleDamageFrom = [];
-    this.doubleDamageTo = [];
-    this.halfDamageFrom = [];
-    this.halfDamageTo = [];
-    this.noDamageFrom = [];
-    this.noDamageTo = [];
-   }
 
-  ngOnChanges() {
-    // Limpiar Listas de relaciones de tipo
-    this.doubleDamageFrom = [];
-    this.doubleDamageTo = [];
-    this.halfDamageFrom = [];
-    this.halfDamageTo = [];
-    this.noDamageFrom = [];
-    this.noDamageTo = [];
-
-    this.loading = false;
-    this.pokemonService.getDetailsType(this.pokemonTypes).subscribe((result: any) => {
+    this.pokemonService.dataPokemonTypeRelationsDetails.subscribe((result: any) => {
       this.typesDetails = result;
       this.getTypeRelations();
     });
 
+   }
+
+  ngOnChanges() {
     
   }
 
@@ -59,6 +45,15 @@ export class TypeRelationsDetailComponent implements OnInit, OnChanges {
 
 
   public getTypeRelations() {
+
+    this.doubleDamageFrom = [];
+    this.doubleDamageTo = [];
+    this.halfDamageFrom = [];
+    this.halfDamageTo = [];
+    this.noDamageFrom = [];
+    this.noDamageTo = [];
+
+
     for (const typeDetails of this.typesDetails) {
       const damageRelations = typeDetails.damage_relations;
       this.setTypeInListRelations(damageRelations.no_damage_to, this.noDamageTo);

@@ -16,11 +16,14 @@ import { TypeRelationsDetailComponent } from '../components/pokemon-details/type
 import { TypeRelationsDetailItemComponent } from '../components/pokemon-details/type-relations-detail-item/type-relations-detail-item.component';
 import { StatsDetailComponent } from '../components/pokemon-details/stats-detail/stats-detail.component';
 import { StatsDetailItemComponent } from '../components/pokemon-details/stats-detail-item/stats-detail-item.component';
-
+import { BasicsDetailComponent } from '../components/pokemon-details/basics-detail/basics-detail.component';
+import { SpeciesDetailComponent } from '../components/pokemon-details/species-detail/species-detail.component';
+import { AbilitiesDetailComponent } from '../components/pokemon-details/abilities-detail/abilities-detail.component';
 
 
 // Modules
 import { PipesModule } from '../pipes/pipes.module';
+
 
 
 
@@ -37,7 +40,10 @@ import { PipesModule } from '../pipes/pipes.module';
     TypeRelationsDetailComponent,
     TypeRelationsDetailItemComponent,
     StatsDetailComponent,
-    StatsDetailItemComponent
+    StatsDetailItemComponent,
+    BasicsDetailComponent,
+    SpeciesDetailComponent,
+    AbilitiesDetailComponent
   ],
   imports: [
     PAGE_ROUTES,

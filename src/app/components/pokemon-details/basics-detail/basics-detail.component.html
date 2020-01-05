@@ -1,0 +1,38 @@
+<div class="card">
+
+    <div class="card-header bg-red font-weight-bold text-white ">
+        <h4 class="mb-0">{{pokemon.species.name | titlecase}} <span class="float-right">Nº{{pokemon.id}}</span></h4>
+
+    </div>
+
+    <img class="card-img-top img-fluid" [src]="pokemon.id | pokemonImagen:2" alt="">
+
+    <div class="card-body">
+        <!-- <h4 class="card-title">{{'Información básica' | titlecase}}</h4> -->
+        <div class="row">
+
+            <div class="col-md-12">
+                <h5>Tipo</h5>
+                <h4>
+                    <span *ngFor="let item of pokemon.types" [style.background]="getTypeColour(item.type.name)"
+                        class="badge text-white mr-2">{{item.type.name | typeToSpanish | titlecase}}</span>
+                </h4>
+            </div>
+
+            <div class="col-md-6 ">
+                <h5>
+                    Altura
+                </h5>
+                {{pokemon.height/10}} m
+
+            </div>
+            <div class="col-md-6 ">
+                <h5>Peso</h5>
+                {{pokemon.weight/10}} kg
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

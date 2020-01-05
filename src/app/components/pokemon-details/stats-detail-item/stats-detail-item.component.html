@@ -1,14 +1,14 @@
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-sm-3">
     <span class="font-weight-bold">{{stat | titlecase}}</span>
   </div>
-  <div class="col-md-8">
+  <div class="col-sm-8">
     <div class="progress mt-1 font-weight-bold">
       <div class="progress-bar {{statID}}" [style.width]="valueGraph + '%'" aria-valuemin="0" [attr.aria-valuenow]="value">
       </div>
     </div>
   </div>
-  <div class="col-md-1 text-center">
+  <div class="col-sm-1 text-center">
     <span class="font-weight-bold">{{value}}</span>
   </div>
 </div>

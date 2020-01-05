@@ -3,12 +3,10 @@ import { environment } from 'src/environments/environment';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { tap } from 'rxjs/internal/operators/tap';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
-import { mergeMap } from 'rxjs/internal/operators/mergeMap';
-import { concatMap } from 'rxjs/internal/operators/concatMap';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs/internal/observable/of';
-// import { concat, mergeMap } from 'rxjs';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -21,9 +19,17 @@ export class PokemonService {
   public pokeGenerationAPI: any;
   public pokeEvolutionChainAPI: any;
   public pokeTypeRelationsAPI: any;
+  public pokeAbilitiesAPI: any;
   
 
   public cachedPokemonList: any[] = [];
+
+  public dataPokemonBasicsDetails = new Subject<any>();
+  public dataPokemonEvolutionDetails = new Subject<any>();
+  public dataPokemonSpecieDetails = new Subject<any>();
+  public dataPokemonTypeRelationsDetails = new Subject<any>();
+  public dataPokemonAbilitiesDetails = new Subject<any>();
+
 
 
   constructor(private http: HttpClient) {
@@ -32,11 +38,61 @@ export class PokemonService {
     this.pokeGenerationAPI = environment.pokemonGeneration;
     this.pokeEvolutionChainAPI = environment.pokemonEvolutionChain;
     this.pokeTypeRelationsAPI = environment.pokemonTypeRelations;
+    this.pokeAbilitiesAPI = environment.pokemonAbilities;
+  }
+
+  // Forma alternativa comunicación para sub componentes en cascada
+
+  public fetchDataPokemonBasicsDetails(idPokemon: number){
+    this.getPokemonBasicDetails(idPokemon).subscribe((result: any) => {
+      this.dataPokemonBasicsDetails.next(result);
+
+      // Solicitud de detalles de la especie Pokémon
+      const idSpecies = this.getIDfromURL(result.species.url);
+      this.fetchDataPokemonSpecieDetails(idSpecies);
+  
+      // Solicitud de detalles del typo del Pokémon
+      const types: any[] = result.types;
+      this.fetchDataPokemonTypeDetails(types);
+
+      // Solicitud de detalles de habilidades del Pokémon
+      const abilities: any[] = result.abilities;
+      this.fetchDataPokemonAbilitiesDetails(abilities);
+
+    })
+  }
+
+  public fetchDataPokemonSpecieDetails(idPokemon: number) {
+    this.getPokemonSpecieDetails(idPokemon).subscribe((result: any) => {
+      this.dataPokemonSpecieDetails.next(result);
+
+      const idEvolutionChain = this.getIDfromURL(result.evolution_chain.url);
+      this.fetchDataPokemonEvolutionDetails(idEvolutionChain);
+
+    })
+  }
+
+  public fetchDataPokemonEvolutionDetails(idEvolution: number) {
+    this.getPokemonEvolutionDetails(idEvolution).subscribe((result: any) => {
+      this.dataPokemonEvolutionDetails.next(result);
+    })
+  }
+
+  public fetchDataPokemonTypeDetails(types: any[]) {
+    this.getDetailsType(types).subscribe((result: any) => {
+      this.dataPokemonTypeRelationsDetails.next(result);
+    })
+  }
+
+
+  public fetchDataPokemonAbilitiesDetails(ability: any[]) {
+    this.getAbilities(ability).subscribe((result: any) => {
+      this.dataPokemonAbilitiesDetails.next(result);
+    })
   }
 
   public getGenerations() {
     return this.http.get(`${this.pokeGenerationAPI}`).pipe(map((resp: any) => {
-
       const results = resp.results.map((generation, index) => {
         return {
           name: generation.name.split('-')[1],
@@ -54,9 +110,7 @@ export class PokemonService {
         switchMap((resp: any) => {
 
           const pokemons$ = resp.pokemon_species.map(pokemon => {
-
             const id = this.getIDfromURL(pokemon.url);
-
             return this.getPokemonBasicDetails(id);
           });
 
@@ -69,17 +123,7 @@ export class PokemonService {
 
   }
 
-  public getPokemonAllDetails(idPokemon: number) {
-    return forkJoin(this.getPokemonSpecieDetails(idPokemon), this.getPokemonBasicDetails(idPokemon)).pipe(
-      map(result => {
-        return this.joinDetailsPokemon(result);
-      }));
-  }
-
-  public getPokemonEvolutionChain(id: number) {
-    return this.http.get(`${this.pokeEvolutionChainAPI}/${id}`);
-  }
-
+  
   public getDetailsType(types: any[]) {
     const typesResponse$: any [] = [];
     types.map((slot: any) => {
@@ -93,56 +137,35 @@ export class PokemonService {
     return this.http.get(`${this.pokeTypeRelationsAPI}/${id}`);
   }
 
-  private joinDetailsPokemon(result: any) {
-    return {
-      idChain: this.getIDfromURL(result[0].evolution_chain.url),
-      stats: result[1].stats,
-      id: result[1].id,
-      abilities: result[1].abilities,
-      height: result[1].height,
-      weight: result[1].weight,
-      types: result[1].types,
-      name: result[1].species.name,
-      genera: result[0].genera,
-      flavor_text_entries: result[0].flavor_text_entries
-    };
+
+  public getAbility(id: number) {
+    return this.http.get(`${this.pokeAbilitiesAPI}/${id}`);
   }
 
-  public getPokemonsAllDetailsByGeneration(number: number) {
+  public getAbilities(abilities: any[]) {
+    const abilities$: any [] = [];
+    abilities.map((slot: any) => {
+      const idAbility = this.getIDfromURL(slot.ability.url);
+      abilities$.push(this.getAbility(idAbility));
+    });
+    return forkJoin(abilities$);
+  }
+
+ 
+  public getPokemonsBasicDetailsByGeneration(number: number) {
     return this.http.get(`${this.pokeGenerationAPI}/${number}`)
       .pipe(
         switchMap((resp: any) => {
-
           const pokemons$ = resp.pokemon_species.map(pokemon => {
             const id = this.getIDfromURL(pokemon.url);
-            return forkJoin(this.getPokemonBasicDetails(id), this.getPokemonSpecieDetails(id));
+            return this.getPokemonBasicDetails(id);
           });
-
           return forkJoin(pokemons$);
         }),
         map((result: any) => {
-          return this.joinDetailsPokemons(result).sort(this.compareID);
+          return result.sort(this.compareID);
         })
       );
-
-  }
-
-  private joinDetailsPokemons(result: any) {
-    // Nueva lista de pokémon
-    const newList: any[] = [];
-    for (const value of result) {
-
-      const pokemon = {
-        stats: value[0].stats,
-        id: value[0].id,
-        types: value[0].types,
-        name: value[0].species.name,
-        genera: value[1].genera,
-        flavor_text_entries: value[1].flavor_text_entries
-      };
-      newList.push(pokemon);
-    }
-    return newList;
 
   }
 
@@ -190,10 +213,10 @@ export class PokemonService {
     if (filteredPokemonList.length > 0) {
       const pokemons$ = filteredPokemonList.map(pokemon => {
         const id = pokemon.id;
-        return forkJoin(this.getPokemonBasicDetails(id), this.getPokemonSpecieDetails(id));
+        return this.getPokemonBasicDetails(id);
       });
       return forkJoin(pokemons$).pipe(map((result: any) => {
-        return this.joinDetailsPokemons(result).sort(this.compareID);
+        return result.sort(this.compareID);
       }));
     } else {
       // No encuentra resultados
@@ -206,6 +229,9 @@ export class PokemonService {
     return this.http.get(`${this.pokeAPI}/${id}`);
   }
 
+  public getPokemonEvolutionDetails(id: number) {
+    return this.http.get(`${this.pokeEvolutionChainAPI}/${id}`);
+  }
 
   public getPokemonSpecieDetails(id: number) {
     return this.http.get(`${this.pokeSpeciesAPI}/${id}`);

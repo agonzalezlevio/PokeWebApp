@@ -10,21 +10,21 @@ import { Router } from '@angular/router';
 export class EvolutionDetailComponent implements OnInit, OnChanges {
   
 
-  @Input() pokemonChainID: number;
   public pokemon: any;
   public loading: boolean;
 
   constructor(private pokemonService: PokemonService, private router: Router) {
     this.loading = false;
+    this.pokemonService.dataPokemonEvolutionDetails.subscribe((result: any) => {
+      this.pokemon = this.transformDataEvolution({...result.chain});
+      this.loading = true;
+    });
 
   }
 
   ngOnChanges() {
-    this.loading = false;
-    this.pokemonService.getPokemonEvolutionChain(this.pokemonChainID).subscribe((result: any) => {
-      this.pokemon = this.transformDataEvolution({...result.chain});
-      this.loading = true;
-    });
+    // this.loading = false;
+    
   }  
 
   ngOnInit() {

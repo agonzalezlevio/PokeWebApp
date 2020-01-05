@@ -19,6 +19,7 @@ export class SearchComponent implements OnInit {
 
   }
 
+
   ngOnInit() {
     this.pokemonService.getPokemons(807).subscribe();
   }

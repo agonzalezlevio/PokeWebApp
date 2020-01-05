@@ -8,7 +8,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 export class StatsDetailComponent implements OnInit, OnChanges {
 
 
-  @Input() stats: any[];
+  @Input() pokemon: any;
 
 
   public statsList: any = [
@@ -24,7 +24,7 @@ export class StatsDetailComponent implements OnInit, OnChanges {
 
 
   ngOnChanges() {
-    this.setStatInList(this.stats);
+    this.setStatInList(this.pokemon.stats);
   }
 
   ngOnInit() {

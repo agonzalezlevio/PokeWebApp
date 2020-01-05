@@ -1,24 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CapitalizePipe } from './capitalize.pipe';
-import { PokemonImagenPipe } from './pokemonImagen.pipe';
+import { PokemonImagePipe } from './pokemonImage.pipe';
 import { TypeToSpanishPipe } from './type-to-spanish.pipe';
 import { FlavorTextToSpanish } from './flavorText-to-Spanish.pipe';
+import { NameTextToSpanish } from './nameText-to-Spanish.pipe';
 
 
 @NgModule({
   declarations: [
     CapitalizePipe,
-    PokemonImagenPipe,
+    PokemonImagePipe,
     TypeToSpanishPipe,
-    FlavorTextToSpanish
+    FlavorTextToSpanish,
+    NameTextToSpanish
   ],
   imports: [
   ],
   exports: [
     CapitalizePipe,
-    PokemonImagenPipe,
+    PokemonImagePipe,
     TypeToSpanishPipe,
-    FlavorTextToSpanish
+    FlavorTextToSpanish,
+    NameTextToSpanish
   ]
 })
 export class PipesModule { }
