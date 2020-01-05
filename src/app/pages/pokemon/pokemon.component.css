@@ -1,4 +1,8 @@
-.img-thumb {
-    width: 150px;
-    height: 150px;
-}
+.btn-circle.btn-xl { 
+    width: 70px;
+    height: 70px;
+    padding: 10px 10px;
+    font-size: 12px;
+    line-height: 1.33;
+    border-radius: 35px;
+} 

@@ -1,6 +1,10 @@
 <div *ngIf="pokemonLoading">
+
+
     <div class="row">
+
         <div class="col-md-4">
+
             <!-- Información Básica -->
             <app-basics-detail [pokemon]="pokemon"></app-basics-detail>
 
@@ -8,20 +12,27 @@
         </div>
 
         <div class="col-md-8">
-            <!-- Información Detallada sobre la Especie -->
-            <app-species-detail ></app-species-detail>
+            <!-- Información Detallada sobre la especie -->
+            <app-species-detail></app-species-detail>
 
             <!-- Estadísticas básicas -->
             <app-stats-detail style="display: block;" class="mt-3" [pokemon]="pokemon"></app-stats-detail>
 
 
-            <!-- Información relaciones entre tipos sobre la Especie -->
-            <app-type-relations-detail style="display: block;" class="mt-3" ></app-type-relations-detail>
+            <!-- Información relaciones entre tipos del pokémon -->
+            <app-type-relations-detail style="display: block;" class="mt-3"></app-type-relations-detail>
 
         </div>
 
         <div class="col-md-12">
-            <app-evolution-detail style="display: block;" class="mt-3" ></app-evolution-detail>
+            <!-- Información cadena de evoluciones pokémon -->
+            <app-evolution-detail style="display: block;" class="mt-3"></app-evolution-detail>
+        </div>
+
+        <div class="col-md-12 mt-3">
+            <button [routerLink]="['/home']" type="button" class="btn bg-red text-white float-right btn-circle btn-xl">
+                <i class="fa fa-arrow-left fa-4x "></i>
+            </button>
         </div>
 
     </div>
