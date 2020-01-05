@@ -26,12 +26,15 @@ export class SearchComponent implements OnInit {
 
 
   public busqueda(termino: string) {
+
+    const terminoBusqueda = termino.trim();
+
     this.filteredPokemonList = [];
     this.pokemonLoading = false;
     this.empty = false;
 
-    if (termino.length > 1) {
-      this.pokemonService.searchPokemonList(termino).subscribe(result => {
+    if (terminoBusqueda.length > 1) {
+      this.pokemonService.searchPokemonList(terminoBusqueda).subscribe(result => {
 
         this.filteredPokemonList = result;
         this.pokemonLoading = true;
