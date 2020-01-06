@@ -2,7 +2,7 @@
     <h6>{{leyenda}}</h6>
     <h6>
         <span *ngFor="let item of types" [style.background]="getTypeColour(item.name)"
-            class="badge text-white mr-1 mt-1">{{item.name | typeToSpanish | capitalize}}</span>
+            class="badge text-white mr-1 mt-1">{{item.name | typeToSpanish | titlecase}}</span>
     </h6>
     <h6 *ngIf="types.length === 0" >
     <span style="background-color: black;" class="badge text-white mr-1 mt-1">Ninguno</span>
