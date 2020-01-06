@@ -1,17 +1,11 @@
 <div class="card mt-3">
 
-    <div class="card-header text-white font-weight-bold  bg-red">
-      <h4 class="mb-0">{{pokemon.name | capitalize }} <span class="mb-0 float-right">N.º{{pokemon.id}}</span></h4>
-    </div>
+  <div class="card-header text-white font-weight-bold  bg-red">
+    <h4 class="mb-0">{{pokemon.name | capitalize }} <span class="mb-0 float-right">N.º{{pokemon.id}}</span></h4>
+  </div>
 
-    <img (click)="verMas(pokemon.id)" class="card-img-top mx-auto d-block img-thumb img-fluid puntero" [src]="pokemon.id | pokemonImagen:1" [alt]="pokemon.name">
+  <img (click)="verMas(pokemon.id)" class="card-img-top mx-auto d-block img-thumb img-fluid puntero" [src]="pokemon.id | pokemonImagen:1" [alt]="pokemon.name">
 
-    <div class="card-body text-center ">
-      <h3>
-        <span *ngFor="let item of pokemon.types" 
-        [style.background]="getTypeColour(item.type.name)"
-        class="badge text-white mr-2">{{item.type.name | typeToSpanish | capitalize}}</span>
-      </h3>
-    </div>
-    
+  
+  
 </div>

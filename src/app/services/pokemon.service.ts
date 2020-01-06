@@ -65,9 +65,10 @@ export class PokemonService {
       const abilities: any[] = result.abilities;
       this.fetchDataPokemonAbilitiesDetails(abilities);
 
-      // Solicitud de detalles de movimientos del Pokémon
-      const moves: any[] = result.moves;
-      this.fetchDataMovesDetails(moves);
+      //Desactivada temporalmente por el número de peticiones
+      // Solicitud de detalles de movimientos del Pokémon 
+      /* const moves: any[] = result.moves;
+      this.fetchDataMovesDetails(moves); */
      
     })
   }
@@ -187,26 +188,22 @@ export class PokemonService {
   }
 
   /**
-   * Se obtiene una lista detallada de Pokémon por generación
+   * Se obtiene una lista sin detalles de Pokémon por generación
    * @param {number} idGeneration ID de la generación de Pokémon (1-7) 
    */
   public getPokemonsByGeneration(idGeneration: number) {
     return this.http.get(`${this.pokeGenerationAPI}/${idGeneration}`)
       .pipe(
-        switchMap((resp: any) => {
-
-          const pokemons$ = resp.pokemon_species.map(pokemon => {
+        map((resp: any) => {
+          return resp.pokemon_species.map(pokemon => {
             const id = this.getIDfromURL(pokemon.url);
-            return this.getPokemonBasicDetails(id);
-          });
-
-          return forkJoin(pokemons$);
-        }),
-        map(result => {
-          return result.sort(this.compareID);
+            return {
+              id,
+              name: pokemon.name
+            }
+          }).sort(this.compareID);
         })
       );
-
   }
 
 
@@ -275,13 +272,13 @@ export class PokemonService {
   }
 
   /**
-   * Compara dos términos y determina quien en mayor o menor
-   * @param a Primer termino a comparar
-   * @param b Segundo termino a comparar
+   * Compara dos términos
+   * @param a Primer object con property id o number id a comparar
+   * @param b Segundo object con property id o number id a comparar
    */
   private compareID(a: any, b: any) {
-    const idA = a.id;
-    const idB = b.id;
+    const idA = a.id || a; // Se obtiene la property id de un object o la id
+    const idB = b.id || b; // Se obtiene la property id de un object o la id
     let comparison = 0;
     if (idA > idB) {
       comparison = 1;
@@ -322,26 +319,12 @@ export class PokemonService {
    */
   public searchPokemonList(termino: string) {
     const searchTerm = termino.toLowerCase();
-    // Se realiza la búsqueda por filtro en lista de Pokémon en cache
-    const filteredPokemonList = this.cachedPokemonList.filter((pokemon: any) => {
+    // Se realiza la búsqueda por filtro en lista de Pokémon en "cache"
+    return this.cachedPokemonList.filter((pokemon: any) => {
       if (pokemon.name.indexOf(searchTerm) !== -1) {
         return pokemon;
       }
     });
-    // Si encuentra resultados, se realiza la petición con los encontrados
-    if (filteredPokemonList.length > 0) {
-      const pokemons$ = filteredPokemonList.map(pokemon => {
-        const id = pokemon.id;
-        return this.getPokemonBasicDetails(id);
-      });
-      return forkJoin(pokemons$).pipe(map((result: any) => {
-        return result.sort(this.compareID);
-      }));
-    } else {
-      // No encuentra resultados
-      return of([]);
-    }
-
   }
 
   /**
