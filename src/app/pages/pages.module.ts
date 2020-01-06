@@ -23,6 +23,8 @@ import { AbilitiesDetailComponent } from '../components/pokemon-details/abilitie
 
 // Modules
 import { PipesModule } from '../pipes/pipes.module';
+import { MovesDetailComponent } from '../components/pokemon-details/moves-detail/moves-detail.component';
+import { MovesDetailTableComponent } from '../components/pokemon-details/moves-detail-table/moves-detail-table.component';
 
 
 
@@ -43,7 +45,9 @@ import { PipesModule } from '../pipes/pipes.module';
     StatsDetailItemComponent,
     BasicsDetailComponent,
     SpeciesDetailComponent,
-    AbilitiesDetailComponent
+    AbilitiesDetailComponent,
+    MovesDetailComponent,
+    MovesDetailTableComponent
   ],
   imports: [
     PAGE_ROUTES,

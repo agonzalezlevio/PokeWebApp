@@ -1,0 +1,34 @@
+<div class="card">
+
+  <div class="card-header bg-red text-white">
+    <h5 class="mb-0">
+      Movimientos
+    </h5>
+  </div>
+  <div class="card-body">
+
+    <div class="row ">
+
+      <div class=" col-md-12 ">
+        <h4 class="font-weight-bold text-center" style="color: #c32020;">{{'Generación de Pokémon' | uppercase}}
+          {{generationSelected | uppercase}}</h4>
+      </div>
+
+      <div class="btn-group col-md-12 flex-wrap" role="group" aria-label="Basic example">
+        <button type="button" class="btn bg-red font-weight-bold  text-white shadow-none mr-1 my-1"
+          *ngFor="let generation of generationList" (click)="getMovesByGeneration(generation)">Generación
+          {{generation.name | uppercase}}</button>
+      </div>
+
+    </div>
+
+    <div *ngIf="loading">
+      <app-moves-detail-table [movesList]="levelUpMove" type="Nivel"> </app-moves-detail-table>
+      <app-moves-detail-table [movesList]="machineMove" type="MT/MO"> </app-moves-detail-table>
+      <app-moves-detail-table [movesList]="tutorMove" type="Tutor"> </app-moves-detail-table>
+      <app-moves-detail-table [movesList]="eggMove" type="Huevo"> </app-moves-detail-table>
+    </div>
+    
+
+  </div>
+</div>

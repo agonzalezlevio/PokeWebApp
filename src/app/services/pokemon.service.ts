@@ -66,9 +66,9 @@ export class PokemonService {
       this.fetchDataPokemonAbilitiesDetails(abilities);
 
       // Solicitud de detalles de movimientos del Pokémon
-      /* const moves: any[] = result.moves;
+      const moves: any[] = result.moves;
       this.fetchDataMovesDetails(moves);
-      */
+     
     })
   }
 
@@ -88,7 +88,7 @@ export class PokemonService {
   }
 
   /**
-     * Se obtiene e insertan la cadena de evolución de un Pokémon
+     * Se obtiene e inserta la cadena de evolución de un Pokémon
      * @param {number} idEvolution ID de la cadena de evolución de un pokémon
      */
   public fetchDataPokemonEvolutionDetails(idEvolution: number) {
@@ -98,7 +98,7 @@ export class PokemonService {
   }
 
   /**
-     * Se obtiene e insertan las tipos de un Pokémon
+     * Se obtiene e inserta los tipos de un Pokémon
      * @param {any[]} types Arreglo con las lista de tipos
      */
   public fetchDataPokemonTypeDetails(types: any[]) {

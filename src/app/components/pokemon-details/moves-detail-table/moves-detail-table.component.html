@@ -1,0 +1,38 @@
+<div class="mt-3"  >
+    <h4 class="text-center">{{type}}</h4>
+    <table class="table table-responsive mb-0 table-bordered"  *ngIf="movesList.length > 0">
+        <thead class="font-weight-bold text-white bg-red">
+            <tr>
+                <th>Nivel Mínimo</th>
+                <th>Ataque</th>
+                <th>Tipo</th>
+                <th>PP</th>
+                <th>Precisión</th>
+                <th>Poder</th>
+                <th>Prioridad</th>
+                <th>Descripción / Efecto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let move of movesList; let i = index">
+                <td>{{move.version_group_details[0].level_learned_at }}</td>
+                <td>{{move.names |nameTextToSpanish }}</td>
+                <td>
+                    <span [style.background]="getTypeColour(move.type.name)"
+                        class="badge text-white mr-1 mt-1">{{move.type.name | typeToSpanish | titlecase}}</span>
+                </td>
+                <td>{{move.pp}}</td>
+                <td>{{(move.accuracy)? move.accuracy: '-'}}</td>
+                <td>{{(move.power)? move.power: '-'}}</td>
+                <td>{{move.priority}}</td>
+                <td>{{move.flavor_text_entries | flavorTextToSpanish}}</td>
+            </tr>
+    
+        </tbody>
+    </table>
+    <div *ngIf="!(movesList.length > 0)">
+        <h6 class="text-muted text-center">No hay registros</h6>
+    </div>
+</div>
+
+
