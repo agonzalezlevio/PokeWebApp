@@ -12,12 +12,12 @@ export class TypeRelationsDetailComponent implements OnInit, OnChanges {
 
   private typesDetails: any[];
 
-  private doubleDamageFrom: any[]; // Una lista de tipos que son muy efectivos contra este tipo.
-  private halfDamageFrom: any[]; // Una lista de tipos que no son muy efectivos contra este tipo.
-  private noDamageFrom: any[]; // Una lista de los tipos que no tienen ningún efecto sobre este tipo.
-  private doubleDamageTo: any[]; // Una lista de tipos que tiene un gran efecto en contra.
-  private halfDamageTo: any[]; // Una lista de tipos que no tiene mucho efecto en contra.
-  private noDamageTo: any[]; // Una lista de tipos que no tiene ningún efecto.
+  public doubleDamageFrom: any[]; // Una lista de tipos que son muy efectivos contra este tipo.
+  public halfDamageFrom: any[]; // Una lista de tipos que no son muy efectivos contra este tipo.
+  public noDamageFrom: any[]; // Una lista de los tipos que no tienen ningún efecto sobre este tipo.
+  public doubleDamageTo: any[]; // Una lista de tipos que tiene un gran efecto en contra.
+  public halfDamageTo: any[]; // Una lista de tipos que no tiene mucho efecto en contra.
+  public noDamageTo: any[]; // Una lista de tipos que no tiene ningún efecto.
 
 
 
