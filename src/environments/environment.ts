@@ -9,7 +9,8 @@ export const environment = {
   pokemonGeneration: 'https://pokeapi.co/api/v2/generation',
   pokemonEvolutionChain: 'https://pokeapi.co/api/v2/evolution-chain',
   pokemonTypeRelations: 'https://pokeapi.co/api/v2/type',
-  pokemonAbilities: 'https://pokeapi.co/api/v2/ability'
+  pokemonAbilities: 'https://pokeapi.co/api/v2/ability',
+  pokemonMoves: 'https://pokeapi.co/api/v2/move'
 };
 
 /*
