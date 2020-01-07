@@ -1,7 +1,7 @@
 <div>
     <h6>{{leyenda}}</h6>
     <h6>
-        <span *ngFor="let item of types" [style.background]="getTypeColour(item.name)"
+        <span *ngFor="let item of types" [style.background]="item.name | typeColor"
             class="badge text-white mr-1 mt-1">{{item.name | typeToSpanish | titlecase}}</span>
     </h6>
     <h6 *ngIf="types.length === 0" >

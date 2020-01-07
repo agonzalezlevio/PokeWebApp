@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { COLOURS } from 'src/app/interfaces/colorPokemon.enum';
+
 
 @Component({
   selector: 'app-type-relations-detail-item',
@@ -17,11 +17,5 @@ export class TypeRelationsDetailItemComponent implements OnInit {
 
   ngOnInit() {}
 
-
-  public getTypeColour(type: string) {
-    if (type) {
-      return '#' + COLOURS[type];
-    }
-  }
 
 }

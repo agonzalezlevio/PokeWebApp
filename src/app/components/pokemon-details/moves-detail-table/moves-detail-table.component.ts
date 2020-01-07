@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { COLOURS } from 'src/app/interfaces/colorPokemon.enum';
+
 
 @Component({
   selector: 'app-moves-detail-table',
@@ -15,13 +15,6 @@ export class MovesDetailTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
-
-
-  public getTypeColour(type: string) {
-    if (type) {
-      return '#' + COLOURS[type];
-    }
   }
 
 

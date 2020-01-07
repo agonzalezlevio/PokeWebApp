@@ -1,4 +1,4 @@
-export enum COLOURS {
+export enum TYPE_POKEMON_COLOURS {
   dark = '705746',
   electric = 'F7D02C',
   grass = '7AC74C',

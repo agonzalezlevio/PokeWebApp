@@ -3,6 +3,7 @@ import { PokemonImagePipe } from './pokemonImage.pipe';
 import { TypeToSpanishPipe } from './type-to-spanish.pipe';
 import { FlavorTextToSpanish } from './flavorText-to-Spanish.pipe';
 import { NameTextToSpanish } from './nameText-to-Spanish.pipe';
+import { TypeColorPipe } from './typeColor.pipe';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { NameTextToSpanish } from './nameText-to-Spanish.pipe';
     PokemonImagePipe,
     TypeToSpanishPipe,
     FlavorTextToSpanish,
-    NameTextToSpanish
+    NameTextToSpanish,
+    TypeColorPipe
   ],
   imports: [
   ],
@@ -18,7 +20,8 @@ import { NameTextToSpanish } from './nameText-to-Spanish.pipe';
     PokemonImagePipe,
     TypeToSpanishPipe,
     FlavorTextToSpanish,
-    NameTextToSpanish
+    NameTextToSpanish,
+    TypeColorPipe
   ]
 })
 export class PipesModule { }

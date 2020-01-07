@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <h5>Tipo</h5>
                 <h4>
-                    <span *ngFor="let item of pokemon.types" [style.background]="getTypeColour(item.type.name)"
+                    <span *ngFor="let item of pokemon.types" [style.background]="item.type.name | typeColor"
                         class="badge text-white mr-2">{{item.type.name | typeToSpanish | titlecase}}</span>
                 </h4>
             </div>
