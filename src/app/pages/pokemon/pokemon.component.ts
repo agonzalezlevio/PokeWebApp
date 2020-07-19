@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../../services/pokemon.service';
-import { COLOURS } from 'src/app/interfaces/colorPokemon.enum';
 
 @Component({
   selector: 'app-pokemon',
