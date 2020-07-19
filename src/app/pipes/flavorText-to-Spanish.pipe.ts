@@ -11,14 +11,13 @@ export class FlavorTextToSpanish implements PipeTransform {
 
   public getTranslatedName(list: any[], type: string) {
     if( type == 'genus') {
-      return list.filter(obj => obj.language.name == 'es')[0].genus;
+      return this.lastItem(list.filter(obj => obj.language.name == 'es')).genus;
     } else {
-      for (const value of list) {
-        if (value.language.name === 'es') {
-          return value.flavor_text;
-        }
-      }
+      return this.lastItem(list.filter(obj => obj.language.name == 'es')).flavor_text;
     }
   }
+
+  public lastItem = (list: any[]) => list[list.length-1];
+
 
 }
