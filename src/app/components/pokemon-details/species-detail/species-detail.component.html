@@ -3,7 +3,7 @@
       <h5 class="mb-0">Información básica</h5>
   </div>  
   <div class="card-body">
-    <h4 class="card-title">{{pokemon.genera[4].genus}}</h4>
+    <h4 class="card-title">{{pokemon.genera |flavorTextToSpanish:'genus' }}</h4>
     <p class="card-text text-justify">
             {{pokemon.flavor_text_entries | flavorTextToSpanish}}
     </p>
